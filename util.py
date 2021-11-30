@@ -1,6 +1,5 @@
 import sys
 import os
-import getch
 
 
 def key_pressed():

@@ -36,7 +36,7 @@ def main():
         if key == 'q':
             is_running = False
         else:
-            player = engine.player_movement(player, key)
+            player = engine.player_movement(board, player, key)
         util.clear_screen()
 
 
