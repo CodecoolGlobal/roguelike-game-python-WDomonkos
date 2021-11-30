@@ -35,9 +35,6 @@ def create_board(width, height):
                 else:
                     column.append("¤")
         board.append(column)
-    # for row in board:
-    #     print(row)
-    # print("\n")
     return board
             
 
