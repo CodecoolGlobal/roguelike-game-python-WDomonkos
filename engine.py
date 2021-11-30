@@ -14,31 +14,30 @@ def create_board(width, height):
     list: Game board
     '''
     board = []
-    counter = True
     for row in range(height):
         column = []
         for col in range(width):
-            if row == 0 or row == height -1:
+            if row == 0 or row == height -1:    # northern and southern wall
                 column.append("#")
-            elif height % 2 == 1 and floor(height / 2) == row:
+            elif height % 2 == 1 and floor(height / 2) == row:  # gate if height is odd
                 if col == 0 or col == width -1:
                     column.append(" ")
                 else:
                     column.append("¤")
-            elif height % 2 == 0 and (height / 2) -1 == row or (height / 2) == row:
+            elif height % 2 == 0 and (height / 2) -1 == row or (height / 2) == row:     # gate if height is even
                 if col == 0 or col == width -1:
                     column.append(" ")
                 else:
                     column.append("¤")
-            else:
+            else:                                   # every other row
                 if col == 0 or col == width -1:
                     column.append("#")
                 else:
                     column.append("¤")
         board.append(column)
-    for row in board:
-        print(row)
-    print("\n")
+    # for row in board:
+    #     print(row)
+    # print("\n")
     return board
             
 
@@ -56,5 +55,5 @@ def put_player_on_board(board, player):
     pass
 
 
-create_board(8, 5)
-create_board(8, 6)
+# create_board(8, 5)
+# create_board(8, 6)
