@@ -13,27 +13,30 @@ def create_board(width, height):
     Returns:
     list: Game board
     '''
+    wall = "#"
+    empty = " "
+    gate = "¤"
     board = []
     for row in range(height):
         column = []
         for col in range(width):
             if row == 0 or row == height -1:    # northern and southern wall
-                column.append("#")
+                column.append(wall)
             elif height % 2 == 1 and floor(height / 2) == row:  # gate if height is odd
                 if col == 0 or col == width -1:
-                    column.append(" ")
+                    column.append(gate)
                 else:
-                    column.append("¤")
+                    column.append(empty)
             elif height % 2 == 0 and (height / 2) -1 == row or (height / 2) == row:     # gate if height is even
                 if col == 0 or col == width -1:
-                    column.append(" ")
+                    column.append(gate)
                 else:
-                    column.append("¤")
+                    column.append(empty)
             else:                                   # every other row
                 if col == 0 or col == width -1:
-                    column.append("#")
+                    column.append(wall)
                 else:
-                    column.append("¤")
+                    column.append(empty)
         board.append(column)
     return board
             

@@ -6,4 +6,4 @@ def display_board(board):
     Nothing
     '''
     for row in board:
-        print(row)
+        print(" ".join(row))
