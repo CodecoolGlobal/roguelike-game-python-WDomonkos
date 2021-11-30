@@ -1,6 +1,8 @@
 from typing import Counter
 from math import floor
 
+from main import PLAYER_ICON, PLAYER_START_X, PLAYER_START_Y
+
 
 def create_board(width, height):
     '''
@@ -52,4 +54,14 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    pass
+    board[player["position_x"]][player["position_y"]] = player["icon"]
+    return board
+
+
+def player_movement(player, key):
+    keys = {"a": -1, "d": +1, "w": -1, "s": +1}
+    if key == "a" or key == "d":
+        player["position_x"] += keys[key]
+    elif key == "w" or key == "s":
+        player["position_y"] += keys[key]
+    return player

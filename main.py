@@ -18,7 +18,8 @@ def create_player():
     Returns:
     dictionary
     '''
-    pass
+    player = { "icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5}
+    return player
 
 
 def main():
@@ -31,11 +32,11 @@ def main():
         engine.put_player_on_board(board, player)
         ui.display_board(board)
 
-        key = util.key_pressed()
+        key = util.key()
         if key == 'q':
             is_running = False
         else:
-            pass
+            player = engine.player_movement(player, key)
         util.clear_screen()
 
 
