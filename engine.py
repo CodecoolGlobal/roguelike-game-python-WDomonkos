@@ -53,7 +53,3 @@ def put_player_on_board(board, player):
     Nothing
     '''
     pass
-
-
-# create_board(8, 5)
-# create_board(8, 6)
