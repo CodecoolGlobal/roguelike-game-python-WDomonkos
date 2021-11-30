@@ -1,3 +1,7 @@
+from typing import Counter
+from math import floor
+
+
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -9,8 +13,34 @@ def create_board(width, height):
     Returns:
     list: Game board
     '''
-    pass
-
+    board = []
+    counter = True
+    for row in range(height):
+        column = []
+        for col in range(width):
+            if row == 0 or row == height -1:
+                column.append("#")
+            elif height % 2 == 1 and floor(height / 2) == row:
+                if col == 0 or col == width -1:
+                    column.append(" ")
+                else:
+                    column.append("¤")
+            elif height % 2 == 0 and (height / 2) -1 == row or (height / 2) == row:
+                if col == 0 or col == width -1:
+                    column.append(" ")
+                else:
+                    column.append("¤")
+            else:
+                if col == 0 or col == width -1:
+                    column.append("#")
+                else:
+                    column.append("¤")
+        board.append(column)
+    for row in board:
+        print(row)
+    print("\n")
+    return board
+            
 
 def put_player_on_board(board, player):
     '''
@@ -24,3 +54,7 @@ def put_player_on_board(board, player):
     Nothing
     '''
     pass
+
+
+create_board(8, 5)
+create_board(8, 6)
