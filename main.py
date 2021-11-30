@@ -32,7 +32,7 @@ def main():
         engine.put_player_on_board(board, player)
         ui.display_board(board)
 
-        key = util.key()
+        key = util.key_pressed()
         if key == 'q':
             is_running = False
         else:

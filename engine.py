@@ -54,7 +54,7 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    board[player["position_x"]][player["position_y"]] = player["icon"]
+    board[player["position_y"]][player["position_x"]] = player["icon"]
     return board
 
 
