@@ -70,6 +70,7 @@ def choosing_difficulty():
         difficulty = input("Choose a difficulty already!(h/e)")
         if difficulty.lower() == "h" or difficulty.lower() == "e":
             valid_input = True
+        util.clear_screen()
     if difficulty == "h":
         lives = 3
     else:
