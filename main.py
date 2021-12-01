@@ -5,10 +5,14 @@ from random import randint
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
-PLAYER_START_Y = 3
+PLAYER_START_Y = 5
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
+MAP_1 = 'map_1.txt'
+MAP_2 = ''
+MAP_3 = ''
+MAP_LIST = [MAP_1, MAP_2, MAP_3]
 
 
 def create_player():
@@ -19,7 +23,7 @@ def create_player():
     Returns:
     dictionary
     '''
-    player = { "icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5}
+    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5, 'current_map': 'MAP_1'}
     return player
 
 
@@ -77,21 +81,22 @@ def choosing_difficulty():
     return lives
 
 
-def main(lives):
+def main():
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_map()
+    board_for_print = util.map_indexing(board)
 
     util.clear_screen()
     is_running = True
     while is_running:
-        engine.put_player_on_board(board, player)
-        ui.display_board(board)
+        engine.put_player_on_board(board_for_print, player)
+        ui.display_board(board_for_print)
 
         key = util.key_pressed()
         if key == 'q':
             is_running = False
         else:
-            player = engine.player_movement(board, player, key)
+            player = engine.player_movement(board_for_print, player, key)
         util.clear_screen()
 
 
