@@ -43,7 +43,41 @@ def create_boss():
     return boss_jozsi
 
 
-def main():
+def menu():
+    print("""
+  .   *   ..  . *  *
+*  * @()Ooc()*   o  .
+    (Q@*0CG*O()  ___
+   |\_________/|/ _ \
+   |  |  |  |  | / | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | \_| |
+   |  |  |  |  |\___/
+   |\_|__|__|_/|
+    \_________/
+
+    """)
+    lives = choosing_difficulty()
+    return lives
+
+
+def choosing_difficulty():
+    valid_input = False
+    while not valid_input:
+        difficulty = input("Choose a difficulty already!(h/e)")
+        if difficulty.lower() == "h" or difficulty.lower() == "e":
+            valid_input = True
+    if difficulty == "h":
+        lives = 3
+    else:
+        lives = 5
+    return lives
+
+
+def main(lives):
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 
