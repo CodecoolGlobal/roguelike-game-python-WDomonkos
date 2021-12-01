@@ -94,8 +94,6 @@ def main():
     util.clear_screen()
     is_running = True
     while is_running:
-        # engine.put_player_on_board(board_for_print, player)
-        # ui.display_board(board_for_print)
         if player["current_room"] == 1:
             current_room = board1
         elif player["current_room"] == 2:
