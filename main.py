@@ -23,14 +23,17 @@ def create_player():
     Returns:
     dictionary
     '''
-    player = { "icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5, "current_room": 1, "key": 0}
+    player = { "icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5, "current_room": 1, "doorkey": 0}
     return player
 
-# def create_key():
-#     key = {"icon": "~", "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+
+def create_key():
+    key = {"icon": "~", "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    return key
+
 
 def create_passer_by():
-    passer_by = {"icon": "¤", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
     return passer_by
 
 
@@ -39,8 +42,12 @@ def create_barkeeper():
     return barkeeper
 
 
-def create_cop():
-    cop = {"icon": "%", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+def create_cop1():
+    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -2), "position_y": randint(1, BOARD_HEIGHT-2)}
+    return cop
+
+def create_cop2():
+    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
     return cop
 
 
@@ -51,7 +58,7 @@ def create_boss():
 
 
 def create_wife():
-    wife = {"icon": "\033[93m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
     return wife
 
 
@@ -93,13 +100,12 @@ def choosing_difficulty():
 def main():
     player = create_player()
     passer_by = create_passer_by()
-    cop1 = create_cop()
-    cop2 = create_cop()
-    cop3 = create_cop()
+    cop1 = create_cop1()
+    cop2 = create_cop2()
     wife = create_wife()
     barkeeper = create_barkeeper()
     boss = create_boss()
-    # key = create_key()
+    doorkey = create_key()
     # board = engine.create_map()
     # board_for_print = util.map_indexing(board)
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -115,13 +121,12 @@ def main():
         if player["current_room"] == 1:
             current_room = board1
             engine.put_player_on_board(current_room, wife)
-            #engine.put_player_on_board(current_room, key)
+            #engine.put_player_on_board(current_room, doorkey)
 
         elif player["current_room"] == 2:
             current_room = board2
             engine.put_player_on_board(current_room, cop1)
             engine.put_player_on_board(current_room, cop2)
-            engine.put_player_on_board(current_room, cop3)
             engine.put_player_on_board(current_room, passer_by)
         elif player["current_room"] == 3:
             current_room = board3
@@ -139,7 +144,6 @@ def main():
 
             cop1 = engine.player_movement(current_room, cop1, key=choice(["s", "w"]))
             cop2 = engine.player_movement(current_room, cop2, key=choice(["s", "w"]))
-            cop3 = engine.player_movement(current_room, cop3, key=choice(["s", "w"]))
             barkeeper = engine.player_movement(current_room, barkeeper, key=choice(["s", "w"]))
             passer_by = engine.player_movement(current_room, passer_by, key=choice(["a", "s", "d", "w"]))
             boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))

@@ -2,12 +2,14 @@ from typing import Counter
 import util
 from main import PLAYER_ICON, PLAYER_START_X, PLAYER_START_Y, MAP_LIST
 import copy
+from random import randint
 
 
 WALL = "#"
 EMPTY = " "
 RIGHT_GATE = '\033[96m'+">"+'\033[00m'
 LEFT_GATE = '\033[96m'+"<"+'\033[00m'
+DOORKEY = "\033[92m"+"~"+"\033[00m"
 
 def create_board(width, height, border_width = 1):
     matrix = []
@@ -40,6 +42,8 @@ def board1(orig_board):
     new_board[2][-(len(orig_board[0])//2+1)] = "\033[92m"+"O"+"\033[00m"
     new_board[2][-(len(orig_board[0])//2+0)] = "\033[92m"+"M"+"\033[00m"
     new_board[2][-(len(orig_board[0])//2-1)] = "\033[92m"+"E"+"\033[00m"
+
+    new_board[randint(10,18)][randint(1,12)] = DOORKEY
 
     return new_board
 
@@ -116,7 +120,7 @@ def player_movement(board, player, key):
     if board[player["position_y"]][player["position_x"]] == WALL:
         return player_original
 
-    if board[player["position_y"]][player["position_x"]] == RIGHT_GATE:
+    if board[player["position_y"]][player["position_x"]] == RIGHT_GATE and player["doorkey"] == 1:
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
@@ -125,6 +129,9 @@ def player_movement(board, player, key):
         player["current_room"] -= 1
         player["position_y"] = len(board)//2
         player["position_x"] = -2
+
+    if board[player["position_y"]][player["position_x"]] == DOORKEY:
+        player["doorkey"] = 1
 
 
     return player
