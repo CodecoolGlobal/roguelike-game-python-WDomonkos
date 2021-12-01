@@ -98,7 +98,11 @@ def put_player_on_board(board, player):
     for row in board:           # deleting the player from board (h ne húzzon csíkot, mint egy csiga)
         if player["icon"] in row:
             row[row.index(player["icon"])] = " "
-    board[player["position_y"]][player["position_x"]] = player["icon"]
+
+    if board[player["position_y"]][player["position_x"]] != WALL:
+        board[player["position_y"]][player["position_x"]] = player["icon"]
+    else:
+        board[player["position_y"]+1][player["position_x"]+1] = player["icon"]
     return board
 
 

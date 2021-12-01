@@ -91,6 +91,7 @@ def choosing_difficulty():
 def main():
     player = create_player()
     passer_by = create_passer_by()
+    cop = create_cop()
     # board = engine.create_map()
     # board_for_print = util.map_indexing(board)
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -110,6 +111,7 @@ def main():
 
         engine.put_player_on_board(current_room, player)
         engine.put_player_on_board(current_room, passer_by)
+        engine.put_player_on_board(current_room, cop)
         ui.display_board(current_room)
 
         key = util.key_pressed()
@@ -118,8 +120,9 @@ def main():
         else:
             # player = engine.player_movement(board_for_print, player, key)
 
-            player = engine.player_movement(current_room, player, key)
+            cop = engine.player_movement(current_room, cop, key =choice(["s", "w"]))
             passer_by = engine.player_movement(current_room, passer_by, key =choice(["a", "s", "d", "w"]))
+            player = engine.player_movement(current_room, player, key)
         util.clear_screen()
 
 
