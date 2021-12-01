@@ -1,7 +1,7 @@
 import util
 import engine
 import ui
-from random import randint
+from random import choice, randint
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -28,7 +28,7 @@ def create_player():
 
 
 def create_passer_by():
-    passer_by = {"icon": "¤", "wallet": randint(0, 6)}
+    passer_by = {"icon": "¤", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
     return passer_by
 
 
@@ -38,13 +38,19 @@ def create_barkeeper():
 
 
 def create_cop():
-    cop = {"icon": "%", "weapon": 0}
+    cop = {"icon": "%", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
     return cop
 
 
 def create_boss():
     boss_jozsi = {"icon": "<>", "drinks": 1, "lives": 3}
     return boss_jozsi
+
+
+
+def wife():
+    wife = {"icon": "&", "wallet": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    return wife
 
 
 def menu():
@@ -84,6 +90,7 @@ def choosing_difficulty():
 
 def main():
     player = create_player()
+    passer_by = create_passer_by()
     # board = engine.create_map()
     # board_for_print = util.map_indexing(board)
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -102,6 +109,7 @@ def main():
             current_room = board3
 
         engine.put_player_on_board(current_room, player)
+        engine.put_player_on_board(current_room, passer_by)
         ui.display_board(current_room)
 
         key = util.key_pressed()
@@ -109,7 +117,9 @@ def main():
             is_running = False
         else:
             # player = engine.player_movement(board_for_print, player, key)
+
             player = engine.player_movement(current_room, player, key)
+            passer_by = engine.player_movement(current_room, passer_by, key =choice(["a", "s", "d", "w"]))
         util.clear_screen()
 
 
