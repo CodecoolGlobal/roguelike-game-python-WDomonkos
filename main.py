@@ -78,7 +78,7 @@ def choosing_difficulty():
     return lives
 
 
-def main(lives):
+def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     board1 = engine.board1(board)
