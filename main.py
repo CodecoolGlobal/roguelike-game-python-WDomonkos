@@ -19,7 +19,7 @@ def create_player(life):
     Returns:
     dictionary
     '''
-    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0}
+    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0, "weapon": 0}
     return player
 
 
@@ -59,7 +59,9 @@ def create_wife():
 
 
 def menu():
-    print("""
+    print(r"""
+
+
   .   *   ..  . *  *
 *  * @()Ooc()*   o  .
     (Q@*0CG*O()  ___
@@ -82,8 +84,7 @@ def menu():
 def choosing_difficulty():
     valid_input = False
     while not valid_input:
-        difficulty = 'h'
-        # difficulty = input("Choose a difficulty already!\nh - hard\ne - easy")
+        difficulty = input("Choose a difficulty already!\nh - hard\ne - easy")
         if difficulty.lower() == "h" or difficulty.lower() == "e":
             valid_input = True
         util.clear_screen()
@@ -134,7 +135,9 @@ def main():
             #engine.put_player_on_board(current_room, boss)
 
         engine.put_player_on_board(current_room, player)
+        ui.display_room_number_and_player_life(player)
         ui.display_board(current_room)
+        ui.display_player_attributes(player)
 
         key = util.key_pressed()
         if key == 'q':
