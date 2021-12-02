@@ -19,7 +19,7 @@ def create_player(life):
     Returns:
     dictionary
     '''
-    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0, "weapon": 0}
+    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0, "weapon": 0, "random_id": randint(10000, 99999)}
     return player
 
 
@@ -29,26 +29,27 @@ def create_key():
 
 
 def create_passer_by():
-    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(6, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(BOARD_HEIGHT//2, BOARD_HEIGHT//2)}
+    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(6, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(BOARD_HEIGHT//2, BOARD_HEIGHT//2), "random_id": randint(10000, 99999)}
     return passer_by
 
 
 def create_barkeeper():
-    barkeeper = {"icon": "\033[95m"+"$"+"\033[00m", "drinks": 1, "wallet": 2, "position_x": -6, "position_y": 8}
+    barkeeper = {"icon": "\033[95m"+"$"+"\033[00m", "drinks": 1, "wallet": 2, "position_x": -6, "position_y": 8, "random_id": randint(10000, 99999)}
     return barkeeper
 
 
 def create_cop1():
-    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
+    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2), "random_id": randint(10000, 99999)}
     return cop
 
 
 def create_cop2():
-    cop = {"icon": "\033[96m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
+    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2), "random_id": randint(10000, 99999)}
     return cop
 
+
 def create_cop3():
-    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 3), "position_y": randint(1, BOARD_HEIGHT - 3)}
+    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 3), "position_y": randint(1, BOARD_HEIGHT - 3), "random_id": randint(10000, 99999)}
     return cop
 
 
@@ -58,7 +59,7 @@ def create_boss():
 
 
 def create_wife():
-    wife = {"icon": "\033[91m"+"♥"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7)}
+    wife = {"icon": "\033[91m"+"♥"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7), "random_id": randint(10000, 99999)}
     return wife
 
 
@@ -126,25 +127,26 @@ def main():
     util.clear_screen()
     is_running = True
     while is_running:
+        character_list = [player, passer_by, cop1, cop2, cop3, wife]
         if player["current_room"] == 1:
             current_room = board1
-            engine.put_player_on_board(board1, wife)
+            engine.put_player_on_board(board1, character_list, wife)
 
         elif player["current_room"] == 2:
             current_room = board2
-            engine.put_player_on_board(current_room, cop1)
-            engine.put_player_on_board(current_room, cop2)
-            engine.put_player_on_board(current_room, cop3)
-            engine.put_player_on_board(current_room, passer_by)
+            engine.put_player_on_board(current_room, character_list, cop1)
+            engine.put_player_on_board(current_room, character_list, cop2)
+            engine.put_player_on_board(current_room, character_list, cop3)
+            engine.put_player_on_board(current_room, character_list, passer_by)
         elif player["current_room"] == 3:
             current_room = board3
-            engine.put_player_on_board(current_room, barkeeper)
+            engine.put_player_on_board(current_room, character_list, barkeeper)
             #engine.put_player_on_board(current_room, boss)
         elif player["current_room"] == 4:
             current_room = board4
             #engine.put_player_on_board(current_room, boss)
 
-        engine.put_player_on_board(current_room, player)
+        engine.put_player_on_board(current_room, character_list, player)
         ui.display_room_number_and_player_life(player)
         ui.display_board(current_room)
         ui.display_player_attributes(player)
