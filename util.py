@@ -1,6 +1,8 @@
 import sys
 import os
 
+from engine import EMPTY
+
 
 def key_pressed():
     try:
@@ -33,7 +35,13 @@ def clear_screen():
         os.system('clear')
 
 
-def read_map(current_map):
+def is_empty(map_matrix: list, y_index, x_index):
+    if map_matrix[y_index][x_index] != EMPTY:
+        return True
+    return False
+
+
+def read_map(current_map):  # not used
     the_map = []
     with open(current_map) as file:
         for lines in file.readlines():
@@ -44,7 +52,7 @@ def read_map(current_map):
     return the_map
 
 
-def map_indexing(string_map):
+def map_indexing(string_map):   # not used
     indexed_map = []
     for line in string_map:
         row = []

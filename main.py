@@ -1,7 +1,7 @@
 import util
 import engine
 import ui
-from random import choice, randint
+from random import choice, randint, random
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -9,13 +9,9 @@ PLAYER_START_Y = 5
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-MAP_1 = 'map_1.txt'
-MAP_2 = ''
-MAP_3 = ''
-MAP_LIST = [MAP_1, MAP_2, MAP_3]
 
 
-def create_player():
+def create_player(life):
     '''
     Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
     Fell free to extend this dictionary!
@@ -23,31 +19,32 @@ def create_player():
     Returns:
     dictionary
     '''
-    player = { "icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": 5, "current_room": 1, "doorkey": 0}
+    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0}
     return player
 
 
 def create_key():
-    key = {"icon": "~", "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    key = {"icon": "~", "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(1, BOARD_HEIGHT - 1)}
     return key
 
 
 def create_passer_by():
-    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(1, BOARD_HEIGHT - 1)}
     return passer_by
 
 
 def create_barkeeper():
-    barkeeper = {"icon": "$", "drinks": 1, "wallet": 2, "position_x": -5, "position_y": randint(1, BOARD_HEIGHT-1)}
+    barkeeper = {"icon": "$", "drinks": 1, "wallet": 2, "position_x": -5, "position_y": randint(1, BOARD_HEIGHT - 1)}
     return barkeeper
 
 
 def create_cop1():
-    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -2), "position_y": randint(1, BOARD_HEIGHT-2)}
+    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
     return cop
 
+
 def create_cop2():
-    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    cop = {"icon": "\033[96m"+"%"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
     return cop
 
 
@@ -56,9 +53,8 @@ def create_boss():
     return boss_jozsi
 
 
-
 def create_wife():
-    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(1, BOARD_WIDTH -1), "position_y": randint(1, BOARD_HEIGHT-1)}
+    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(1, BOARD_HEIGHT - 1)}
     return wife
 
 
@@ -86,7 +82,8 @@ def menu():
 def choosing_difficulty():
     valid_input = False
     while not valid_input:
-        difficulty = input("Choose a difficulty already!(h/e)")
+        difficulty = 'h'
+        # difficulty = input("Choose a difficulty already!\nh - hard\ne - easy")
         if difficulty.lower() == "h" or difficulty.lower() == "e":
             valid_input = True
         util.clear_screen()
@@ -98,30 +95,33 @@ def choosing_difficulty():
 
 
 def main():
-    player = create_player()
-    passer_by = create_passer_by()
-    cop1 = create_cop1()
-    cop2 = create_cop2()
-    wife = create_wife()
-    barkeeper = create_barkeeper()
-    boss = create_boss()
-    doorkey = create_key()
-    # board = engine.create_map()
-    # board_for_print = util.map_indexing(board)
+    difficulty = menu()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     board1 = engine.board1(board)
     board2 = engine.board2(board)
     board3 = engine.board3(board)
+    player = create_player(difficulty)
+    passer_by = create_passer_by()
+    cop1 = create_cop1()
+    cop2 = create_cop2()
+    wife = create_wife()
+    while util.is_empty(board1, wife['position_y'], wife['position_x']):    # create a function for these to check, only for refactor
+        wife = create_wife()
+    while util.is_empty(board2, cop1['position_y'], cop1['position_x']):
+        cop1 = create_cop1()
+    while util.is_empty(board2, cop2['position_y'], cop2['position_x']):
+        cop2 = create_cop2()
+
+    barkeeper = create_barkeeper()
+    boss = create_boss()
+    create_key()
 
     util.clear_screen()
     is_running = True
     while is_running:
-        
-
         if player["current_room"] == 1:
             current_room = board1
-            engine.put_player_on_board(current_room, wife)
-            #engine.put_player_on_board(current_room, doorkey)
+            engine.put_player_on_board(board1, wife)
 
         elif player["current_room"] == 2:
             current_room = board2
@@ -142,12 +142,12 @@ def main():
         else:
             # player = engine.player_movement(board_for_print, player, key)
 
-            cop1 = engine.player_movement(current_room, cop1, key=choice(["s", "w"]))
-            cop2 = engine.player_movement(current_room, cop2, key=choice(["s", "w"]))
-            barkeeper = engine.player_movement(current_room, barkeeper, key=choice(["s", "w"]))
-            passer_by = engine.player_movement(current_room, passer_by, key=choice(["a", "s", "d", "w"]))
-            boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
-            wife = engine.player_movement(current_room, wife, key=choice(["a", "s", "d", "w"]))
+            cop1 = engine.npc_movement(current_room, cop1, key=choice(["s", "w"]))
+            cop2 = engine.npc_movement(current_room, cop2, key=choice(["s", "w"]))
+            barkeeper = engine.npc_movement(current_room, barkeeper, key=choice(["s", "w"]))
+            passer_by = engine.npc_movement(current_room, passer_by, key=choice(["a", "s", "d", "w"]))
+            # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
+            wife = engine.npc_movement(current_room, wife, key=choice(["a", "s", "d", "w"]))
             player = engine.player_movement(current_room, player, key)
         util.clear_screen()
 
