@@ -39,12 +39,16 @@ def create_barkeeper():
 
 
 def create_cop1():
-    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
+    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": 0, "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
     return cop
 
 
 def create_cop2():
-    cop = {"icon": "\033[96m"+"%"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
+    cop = {"icon": "\033[96m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2)}
+    return cop
+
+def create_cop3():
+    cop = {"icon": "\033[94m"+"%"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 3), "position_y": randint(1, BOARD_HEIGHT - 3)}
     return cop
 
 
@@ -54,7 +58,7 @@ def create_boss():
 
 
 def create_wife():
-    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7)}
+    wife = {"icon": "\033[91m"+"♥"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7)}
     return wife
 
 
@@ -106,6 +110,7 @@ def main():
     passer_by = create_passer_by()
     cop1 = create_cop1()
     cop2 = create_cop2()
+    cop3 = create_cop3()
     wife = create_wife()
     while util.is_empty(board1, wife['position_y'], wife['position_x']):    # create a function for these to check, only for refactor
         wife = create_wife()
@@ -129,6 +134,7 @@ def main():
             current_room = board2
             engine.put_player_on_board(current_room, cop1)
             engine.put_player_on_board(current_room, cop2)
+            engine.put_player_on_board(current_room, cop3)
             engine.put_player_on_board(current_room, passer_by)
         elif player["current_room"] == 3:
             current_room = board3
@@ -151,7 +157,7 @@ def main():
 
             cop1 = engine.npc_movement(board2, cop1, key=choice(["s", "w"]))
             cop2 = engine.npc_movement(board2, cop2, key=choice(["s", "w"]))
-            #barkeeper = engine.npc_movement(board3, barkeeper, key=choice(["s", "w"]))
+            cop3 = engine.npc_movement(board2, cop3, key=choice(["a", "s", "d", "w"]))
             passer_by = engine.npc_movement(board2, passer_by, key=choice(["a", "s", "d", "w"]))
             # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, key=choice(["a", "s", "d", "w"]))

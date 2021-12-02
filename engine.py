@@ -4,10 +4,13 @@ import copy
 from random import randint
 
 
-WALL = "#"
+WALL = "▣"
 EMPTY = " "
 RIGHT_GATE = '\033[96m'+">"+'\033[00m'
 LEFT_GATE = '\033[96m'+"<"+'\033[00m'
+BAR_RIGHT_GATE = '\033[94m'+">"+'\033[00m'
+STREET_RIGHT_GATE = '\033[93m'+">"+'\033[00m'
+NEAR_BARKEEPER = "."
 DOORKEY = "\033[92m"+"~"+"\033[00m"
 NPC_COLLISION = [WALL, RIGHT_GATE, LEFT_GATE, DOORKEY]
 
@@ -53,16 +56,20 @@ def board1(orig_board):
 def board2(orig_board):
     new_board = copy.deepcopy(orig_board)
 
-    new_board[len(new_board)//2][-1] = RIGHT_GATE
-    new_board[len(new_board)//2-1][-1] = RIGHT_GATE
+    new_board[len(new_board)//2][-1] = STREET_RIGHT_GATE
+    new_board[len(new_board)//2-1][-1] = STREET_RIGHT_GATE
 
     new_board[len(new_board)//2][0] = LEFT_GATE
     new_board[len(new_board)//2-1][0] = LEFT_GATE
 
-    for i in range(18):
-        new_board[13][i] = WALL
-    for i in range(13):
-        new_board[7][-i] = WALL
+    for i in range(4,18):
+        new_board[5][i] = WALL
+    for i in range(16,26):
+        new_board[8][i] = WALL
+    for i in range(6, 17):
+        new_board[11][i] = WALL
+    for i in range(10,22):
+        new_board[15][i] = WALL
 
     new_board[2][-(len(orig_board[0])//2+3)] = "\033[92m"+"S"+"\033[00m"
     new_board[2][-(len(orig_board[0])//2+2)] = "\033[92m"+"T"+"\033[00m"
@@ -77,14 +84,18 @@ def board2(orig_board):
 def board3(orig_board):
     new_board = copy.deepcopy(orig_board)
 
-    new_board[len(new_board)//2][-1] = RIGHT_GATE
-    new_board[len(new_board)//2-1][-1] = RIGHT_GATE
+    new_board[len(new_board)//2][-1] = BAR_RIGHT_GATE
+    new_board[len(new_board)//2-1][-1] = BAR_RIGHT_GATE
 
     new_board[len(new_board)//2][0] = LEFT_GATE
     new_board[len(new_board)//2-1][0] = LEFT_GATE
 
     for i in range(len(orig_board)-5):
         new_board[i][-8] = WALL
+
+    # for i in range(7,10):
+    #     for j in range(-7,-4):
+    #         new_board[i][j] = NEAR_BARKEEPER
 
     new_board[2][-5] = "\033[92m"+"B"+"\033[00m"
     new_board[2][-4] = "\033[92m"+"A"+"\033[00m"
@@ -148,6 +159,20 @@ def player_movement(board, player, key):
         player["position_x"] = 1
     elif player_position == RIGHT_GATE and player["doorkey"] == 0:
         return player_original
+
+    if player_position == STREET_RIGHT_GATE and player["wallet"] == 0:
+        player["current_room"] += 1
+        player["position_y"] = len(board)//2
+        player["position_x"] = 1
+    elif player_position == STREET_RIGHT_GATE and player["wallet"] == 0:
+        return player_original
+
+    if player_position == BAR_RIGHT_GATE and player["weapon"] == 0:
+        player["current_room"] += 1
+        player["position_y"] = len(board)//2
+        player["position_x"] = 1
+    elif player_position == BAR_RIGHT_GATE and player["weapon"] == 0:
+        return player_original
         
     if player_position == LEFT_GATE:
         player["current_room"] -= 1
@@ -156,6 +181,9 @@ def player_movement(board, player, key):
 
     if player_position == DOORKEY:
         player["doorkey"] = 1
+
+    # if player_position == NEAR_BARKEEPER:
+    #     player["weapon"] += 1
 
     return player
 
