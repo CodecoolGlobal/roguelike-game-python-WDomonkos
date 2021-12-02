@@ -222,7 +222,7 @@ def pick_up_item(player_position, player):
     return player
 
 
-def is_colison(npc, main_character):
+def is_collison(npc, main_character):
     main_position_y = main_character["position_y"]
     main_position_x = main_character["position_x"]
     character_position_y = npc["position_y"]
@@ -235,7 +235,7 @@ def is_colison(npc, main_character):
 def if_is_collison(npc_list, player):
     message = None
     for char in npc_list:
-        if is_colison(char, player):
+        if is_collison(char, player):
             if char["icon"] == "\033[93m"+"¤"+"\033[00m" and player["current_room"] == 2:
                 char["wallet"] -= 1
                 player["wallet"] += 1
