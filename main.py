@@ -55,7 +55,11 @@ def create_cop3():
 
 
 def create_boss():
-    boss_jozsi = {"icon": "§", "drinks": 1, "lives": 3, "position_x": 15, "position_y": 10}
+    boss_jozsi = {"icon":\
+r"""
+ （￣ｗ￣）Ψ
+  \łłłł/   |
+""", "drinks": 1, "lives": 3, "position_x": 15, "position_y": 10, "random_id": randint(10000, 99999)}
     return boss_jozsi
 
 
@@ -127,7 +131,7 @@ def main():
     util.clear_screen()
     is_running = True
     while is_running:
-        character_list = [player, passer_by, cop1, cop2, cop3, wife, barkeeper]     #Boss is missing
+        character_list = [player, passer_by, cop1, cop2, cop3, wife, barkeeper, boss]
         if player["current_room"] == 1:
             current_room = board1
             engine.put_player_on_board(board1, character_list, wife)
@@ -141,10 +145,9 @@ def main():
         elif player["current_room"] == 3:
             current_room = board3
             engine.put_player_on_board(board3, character_list, barkeeper)
-            #engine.put_player_on_board(current_room, boss)
         elif player["current_room"] == 4:
             current_room = board4
-            #engine.put_player_on_board(current_room, boss)
+            engine.put_player_on_board(current_room, character_list, boss)
 
         engine.put_player_on_board(current_room, character_list, player)
         ui.display_room_number_and_player_life(player)
@@ -163,7 +166,7 @@ def main():
             cop2 = engine.npc_movement(board2, cop2, player, key=choice(["s", "w"]))
             cop3 = engine.npc_movement(board2, cop3, player, key=choice(["a", "s", "d", "w"]))
             passer_by = engine.npc_movement(board2, passer_by, player, key=choice(["a", "s", "d", "w"]))
-            # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
+            boss = engine.npc_movement(board4, boss, player, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             
         
@@ -176,3 +179,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
