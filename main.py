@@ -145,12 +145,12 @@ def main():
         else:
             # player = engine.player_movement(board_for_print, player, key)
 
-            cop1 = engine.npc_movement(board2, cop1, key=choice(["s", "w"]))
-            cop2 = engine.npc_movement(board2, cop2, key=choice(["s", "w"]))
-            barkeeper = engine.npc_movement(board3, barkeeper, key=choice(["s", "w"]))
-            passer_by = engine.npc_movement(board2, passer_by, key=choice(["a", "s", "d", "w"]))
+            cop1 = engine.npc_movement(board2, cop1, player, key=choice(["s", "w"]))
+            cop2 = engine.npc_movement(board2, cop2, player, key=choice(["s", "w"]))
+            barkeeper = engine.npc_movement(board3, barkeeper, player, key=choice(["s", "w"]))
+            passer_by = engine.npc_movement(board2, passer_by, player, key=choice(["a", "s", "d", "w"]))
             # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
-            wife = engine.npc_movement(board1, wife, key=choice(["a", "s", "d", "w"]))
+            wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             player = engine.player_movement(current_room, player, key)
         util.clear_screen()
 
