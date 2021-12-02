@@ -122,7 +122,7 @@ def board4(orig_board):
     return new_board
 
 
-def put_player_on_board(board, player):
+def put_player_on_board(board, char_list, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
 
@@ -133,12 +133,15 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    for row in board:           # deleting the player from board (h ne húzzon csíkot, mint egy csiga)
-        if player["icon"] in row:
-            row[row.index(player["icon"])] = " "
+    for _ in range(len(char_list)):
+        for item in char_list:
+            if player["random_id"] == item["random_id"]:
+                for row in board:                   # UNDER CONSTRUCTION
+                    if player["icon"] in row:
+                        row[row.index(char_list[char_list.index(player)]["icon"])] = " "
 
-    if board[player["position_y"]][player["position_x"]] != WALL:
-        board[player["position_y"]][player["position_x"]] = player["icon"]
+                if board[player["position_y"]][player["position_x"]] != WALL:
+                    board[player["position_y"]][player["position_x"]] = char_list[char_list.index(player)]["icon"]
     return board
 
 
