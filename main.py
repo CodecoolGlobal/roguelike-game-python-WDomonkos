@@ -34,7 +34,7 @@ def create_passer_by():
 
 
 def create_barkeeper():
-    barkeeper = {"icon": "$", "drinks": 1, "wallet": 2, "position_x": -5, "position_y": randint(1, BOARD_HEIGHT - 1)}
+    barkeeper = {"icon": "\033[95m"+"$"+"\033[00m", "drinks": 1, "wallet": 2, "position_x": -6, "position_y": 8}
     return barkeeper
 
 
@@ -54,7 +54,7 @@ def create_boss():
 
 
 def create_wife():
-    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(1, BOARD_HEIGHT - 1)}
+    wife = {"icon": "\033[91m"+"&"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7)}
     return wife
 
 
@@ -101,6 +101,7 @@ def main():
     board1 = engine.board1(board)
     board2 = engine.board2(board)
     board3 = engine.board3(board)
+    board4 = engine.board4(board)
     player = create_player(difficulty)
     passer_by = create_passer_by()
     cop1 = create_cop1()
@@ -133,6 +134,9 @@ def main():
             current_room = board3
             engine.put_player_on_board(current_room, barkeeper)
             #engine.put_player_on_board(current_room, boss)
+        elif player["current_room"] == 4:
+            current_room = board4
+            #engine.put_player_on_board(current_room, boss)
 
         engine.put_player_on_board(current_room, player)
         ui.display_room_number_and_player_life(player)
@@ -145,10 +149,17 @@ def main():
         else:
             # player = engine.player_movement(board_for_print, player, key)
 
+<<<<<<< HEAD
             cop1 = engine.npc_movement(board2, cop1, player, key=choice(["s", "w"]))
             cop2 = engine.npc_movement(board2, cop2, player, key=choice(["s", "w"]))
             barkeeper = engine.npc_movement(board3, barkeeper, player, key=choice(["s", "w"]))
             passer_by = engine.npc_movement(board2, passer_by, player, key=choice(["a", "s", "d", "w"]))
+=======
+            cop1 = engine.npc_movement(board2, cop1, key=choice(["s", "w"]))
+            cop2 = engine.npc_movement(board2, cop2, key=choice(["s", "w"]))
+            #barkeeper = engine.npc_movement(board3, barkeeper, key=choice(["s", "w"]))
+            passer_by = engine.npc_movement(board2, passer_by, key=choice(["a", "s", "d", "w"]))
+>>>>>>> 37821156bec3833c3e308e4f8ade3cfa96d1f193
             # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             player = engine.player_movement(current_room, player, key)
