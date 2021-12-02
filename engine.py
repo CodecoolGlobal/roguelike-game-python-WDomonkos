@@ -172,7 +172,7 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = 1
     elif player_position == STREET_RIGHT_GATE and player["wallet"] < 5:
-        print("HEY, how do you want to buy a drink in the bar?")
+        print("HEY, how do you want to buy a drink without money?")
         time.sleep(3)
         return player_original
 
