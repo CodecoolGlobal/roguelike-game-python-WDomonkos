@@ -1,3 +1,5 @@
+import time
+
 def display_board(board):
     '''
     Displays complete game board on the screen
@@ -10,6 +12,7 @@ def display_board(board):
 
 def display_message(string):
     print(string)
+    time.sleep(4)
 
 
 def display_room_number_and_player_life(player : dict):
