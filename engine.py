@@ -187,20 +187,22 @@ def player_movement(board, player, key):
     return player
 
 
-def npc_movement(board, player, main_character, key):
-    player_original = player.copy()
+def npc_movement(board, npc, player, key):
+    npc_original = npc.copy()
     keys = {"a": -1, "d": +1, "w": -1, "s": +1}
     if key == "a" or key == "d":
-        player["position_x"] += keys[key]
+        npc["position_x"] += keys[key]
     elif key == "w" or key == "s":
-        player["position_y"] += keys[key]
-    player_pos = board[player["position_y"]][player["position_x"]]
-    if player_pos in NPC_COLLISION or is_colison(board, player, main_character):
-        if player["icon"] == "\033[93m"+"¤"+"\033[00m" and is_colison(board, player, main_character):
-            player["wallet"] -= 1
-            main_character["wallet"] += 1
-        return player_original
-    return player
+        npc["position_y"] += keys[key]
+    player_pos = board[npc["position_y"]][npc["position_x"]]
+    if player_pos in NPC_COLLISION or is_colison(npc, player):
+        if npc["icon"] == "\033[93m"+"¤"+"\033[00m" and is_colison(npc, player):
+            npc["wallet"] -= 1
+            player["wallet"] += 1
+        elif any([ npc["icon"] == "\x1b[94m"+"♣"+"\x1b[00m",  npc["icon"] == "\x1b[96m"+"♣"+"\x1b[00m",  npc["icon"] == "\x1b[94m"+"%"+"\x1b[00m"]) and is_colison(npc, player):
+            player["lives"] -= 1
+        return npc_original
+    return npc
 
 
 def pick_up_item(player_position, player):
@@ -209,11 +211,11 @@ def pick_up_item(player_position, player):
     return player
 
 
-def is_colison(board, player, main_character):
+def is_colison(npc, main_character):
     main_position_y = main_character["position_y"]
     main_position_x = main_character["position_x"]
-    character_position_y = player["position_y"]
-    character_position_x =  player["position_x"]
+    character_position_y = npc["position_y"]
+    character_position_x =  npc["position_x"]
     if all([main_position_y == character_position_y, main_position_x == character_position_x]):
         return True
     return False
