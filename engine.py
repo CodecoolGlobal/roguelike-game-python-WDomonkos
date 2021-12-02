@@ -2,6 +2,7 @@ import util
 from main import PLAYER_ICON, PLAYER_START_X, PLAYER_START_Y
 import copy
 from random import randint
+import time
 
 
 WALL = "▣"
@@ -93,9 +94,9 @@ def board3(orig_board):
     for i in range(len(orig_board)-5):
         new_board[i][-8] = WALL
 
-    # for i in range(7,10):
-    #     for j in range(-7,-4):
-    #         new_board[i][j] = NEAR_BARKEEPER
+    for i in range(7,10):
+        for j in range(-7,-4):
+            new_board[i][j] = NEAR_BARKEEPER
 
     new_board[2][-5] = "\033[92m"+"B"+"\033[00m"
     new_board[2][-4] = "\033[92m"+"A"+"\033[00m"
@@ -158,6 +159,8 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = 1
     elif player_position == RIGHT_GATE and player["doorkey"] == 0:
+        print("Oops, it looks like the door is closed")
+        time.sleep(3)
         return player_original
 
     if player_position == STREET_RIGHT_GATE and player["wallet"] >= 5:
@@ -165,13 +168,14 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = 1
     elif player_position == STREET_RIGHT_GATE and player["wallet"] == 0:
+        print("HEY, how do you want to buy a drink in the bar?")
         return player_original
 
-    if player_position == BAR_RIGHT_GATE and player["weapon"] == 0:
+    if player_position == BAR_RIGHT_GATE and player["broken_glass"] == 8:
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
-    elif player_position == BAR_RIGHT_GATE and player["weapon"] == 0:
+    elif player_position == BAR_RIGHT_GATE and player["broken_glass"] == 0:
         return player_original
         
     if player_position == LEFT_GATE:
@@ -179,6 +183,8 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = -2
 
+    if player_position == NEAR_BARKEEPER:
+        player["broken_glass"] += 1
     player = pick_up_item(player_position, player)
     
     return player
@@ -192,12 +198,7 @@ def npc_movement(board, npc, player, key):
     elif key == "w" or key == "s":
         npc["position_y"] += keys[key]
     player_pos = board[npc["position_y"]][npc["position_x"]]
-    if player_pos in NPC_COLLISION or is_colison(npc, player):
-        if npc["icon"] == "\033[93m"+"¤"+"\033[00m" and is_colison(npc, player):
-            npc["wallet"] -= 1
-            player["wallet"] += 1
-        elif any([ npc["icon"] == "\x1b[94m"+"♣"+"\x1b[00m",  npc["icon"] == "\x1b[96m"+"♣"+"\x1b[00m",  npc["icon"] == "\x1b[94m"+"%"+"\x1b[00m"]) and is_colison(npc, player):
-            player["lives"] -= 1
+    if player_pos in NPC_COLLISION:
         return npc_original
     return npc
 
@@ -216,3 +217,19 @@ def is_colison(npc, main_character):
     if all([main_position_y == character_position_y, main_position_x == character_position_x]):
         return True
     return False
+
+
+def if_is_collison(npc_list, player):
+    for char in npc_list:
+        if is_colison(char, player):
+            if char["icon"] == "\033[93m"+"¤"+"\033[00m":
+                char["wallet"] -= 1
+                player["wallet"] += 1
+            elif any([char["icon"] == "\x1b[94m"+"♣"+"\x1b[00m", char["icon"] == "\x1b[96m"+"♣"+"\x1b[00m", char["icon"] == "\x1b[94m"+"%"+"\x1b[00m"]):
+                player["lives"] -= 1
+            elif char["icon"] == "\033[91m"+"♥"+"\033[00m":
+                message = "\033[91m"+"Are you going to the pub again, you pig?!?"+"\033[00m"
+            elif char["icon"] == "\033[95m"+"$"+"\033[00m":
+                message = "\033[95m"+"Jozsi took the HOLY PALINKA to the storage. If you want to get drunk take it from him."+"\033[00m"
+    return message
+        

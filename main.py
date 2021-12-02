@@ -19,7 +19,7 @@ def create_player(life):
     Returns:
     dictionary
     '''
-    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0, "weapon": 0}
+    player = {"icon": PLAYER_ICON, "position_x": PLAYER_START_X, "position_y": PLAYER_START_Y, "wallet": 0, "lives": life, "current_room": 1, "doorkey": 0, "weapon": 0, "broken_glass": 0}
     return player
 
 
@@ -60,6 +60,7 @@ def create_boss():
 def create_wife():
     wife = {"icon": "\033[91m"+"♥"+"\033[00m", "wallet": 0, "position_x": randint(12, 25), "position_y": randint(3, 7)}
     return wife
+
 
 
 def menu():
@@ -148,13 +149,14 @@ def main():
         ui.display_room_number_and_player_life(player)
         ui.display_board(current_room)
         ui.display_player_attributes(player)
+        message = engine.if_is_collison(character_list, player)
 
         key = util.key_pressed()
         if key == 'q':
             is_running = False
         else:
             # player = engine.player_movement(board_for_print, player, key)
-
+            
             cop1 = engine.npc_movement(board2, cop1, player, key=choice(["s", "w"]))
             cop2 = engine.npc_movement(board2, cop2, player, key=choice(["s", "w"]))
             cop3 = engine.npc_movement(board2, cop3, player, key=choice(["a", "s", "d", "w"]))
@@ -163,6 +165,7 @@ def main():
             # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             player = engine.player_movement(current_room, player, key)
+            
         util.clear_screen()
 
 
