@@ -91,7 +91,7 @@ def menu():
 def choosing_difficulty():
     valid_input = False
     while not valid_input:
-        difficulty = input("Choose a difficulty already!\nh - hard\ne - easy")
+        difficulty = input("Choose a difficulty already!\nh - hard\ne - easy\n")
         if difficulty.lower() == "h" or difficulty.lower() == "e":
             valid_input = True
         util.clear_screen()
@@ -153,6 +153,7 @@ def main():
         ui.display_board(current_room)
         ui.display_player_attributes(player)
         message = engine.if_is_collison(character_list, player)
+        ui.display_message(message)
 
         key = util.key_pressed()
         if key == 'q':
@@ -168,7 +169,11 @@ def main():
             # boss = engine.player_movement(current_room, boss, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             player = engine.player_movement(current_room, player, key)
-            
+        
+        if engine.has_lost(player):
+            ui.display_message("You are dead, looser!")
+            is_running = False
+
         util.clear_screen()
 
 

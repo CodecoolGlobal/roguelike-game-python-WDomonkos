@@ -11,8 +11,9 @@ def display_board(board):
         print(" ".join(row))
 
 def display_message(string):
-    print(string)
-    time.sleep(4)
+    if string != None:
+        print(string)
+        time.sleep(4)
 
 
 def display_room_number_and_player_life(player : dict):
@@ -25,4 +26,5 @@ def display_player_attributes(player):
     wallet = player["wallet"]
     broken_bottle = player["weapon"]
     key = player["doorkey"]
-    print(f"money: {wallet}   weapon: {broken_bottle}    key: {key}")
+    glass = player["broken_glass"]
+    print(f"money: {wallet}   weapon: {broken_bottle}    key: {key}     broken glass: {glass}")

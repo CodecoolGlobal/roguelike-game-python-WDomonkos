@@ -170,14 +170,17 @@ def player_movement(board, player, key):
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
-    elif player_position == STREET_RIGHT_GATE and player["wallet"] == 0:
+    elif player_position == STREET_RIGHT_GATE and player["wallet"] < 5:
         print("HEY, how do you want to buy a drink in the bar?")
+        time.sleep(3)
         return player_original
 
     if player_position == BAR_RIGHT_GATE and player["broken_glass"] == 8:
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
+        player["weapon"] = 1
+        print("Oi, you have found a broken bottle, can be handy")
     elif player_position == BAR_RIGHT_GATE and player["broken_glass"] == 0:
         return player_original
         
@@ -223,16 +226,22 @@ def is_colison(npc, main_character):
 
 
 def if_is_collison(npc_list, player):
+    message = None
     for char in npc_list:
         if is_colison(char, player):
-            if char["icon"] == "\033[93m"+"¤"+"\033[00m":
+            if char["icon"] == "\033[93m"+"¤"+"\033[00m" and player["current_room"] == 2:
                 char["wallet"] -= 1
                 player["wallet"] += 1
-            elif any([char["icon"] == "\x1b[94m"+"♣"+"\x1b[00m", char["icon"] == "\x1b[96m"+"♣"+"\x1b[00m", char["icon"] == "\x1b[94m"+"%"+"\x1b[00m"]):
+            elif any([char["icon"] == "\x1b[94m"+"♣"+"\x1b[00m", char["icon"] == "\x1b[96m"+"♣"+"\x1b[00m", \
+                 char["icon"] == "\x1b[94m"+"%"+"\x1b[00m"]) and player["current_room"] == 2:
                 player["lives"] -= 1
-            elif char["icon"] == "\033[91m"+"♥"+"\033[00m":
+            elif char["icon"] == "\033[91m"+"♥"+"\033[00m" and player["current_room"] == 1:
                 message = "\033[91m"+"Are you going to the pub again, you pig?!?"+"\033[00m"
-            elif char["icon"] == "\033[95m"+"$"+"\033[00m":
+            elif char["icon"] == "\033[95m"+"$"+"\033[00m" and player["current_room"] == 3:
                 message = "\033[95m"+"Jozsi took the HOLY PALINKA to the storage. If you want to get drunk take it from him."+"\033[00m"
     return message
-        
+
+
+def has_lost(player):
+    if player["lives"] < 1:
+        return True
