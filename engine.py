@@ -115,20 +115,24 @@ def player_movement(board, player, key):
         player["position_x"] += keys[key]
     elif key == "w" or key == "s":
         player["position_y"] += keys[key]
-    if board[player["position_y"]][player["position_x"]] == WALL:
+    player_position = board[player["position_y"]][player["position_x"]]
+
+    if player_position == WALL:
         return player_original
 
-    if board[player["position_y"]][player["position_x"]] == RIGHT_GATE and player["doorkey"] == 1:
+    if player_position == RIGHT_GATE and player["doorkey"] == 1:
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
-
-    if board[player["position_y"]][player["position_x"]] == LEFT_GATE:
+    elif player_position == RIGHT_GATE and player["doorkey"] == 0:
+        return player_original
+        
+    if player_position == LEFT_GATE:
         player["current_room"] -= 1
         player["position_y"] = len(board)//2
         player["position_x"] = -2
 
-    if board[player["position_y"]][player["position_x"]] == DOORKEY:
+    if player_position == DOORKEY:
         player["doorkey"] = 1
 
     return player
