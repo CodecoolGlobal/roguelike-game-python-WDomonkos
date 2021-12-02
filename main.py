@@ -1,7 +1,7 @@
 import util
 import engine
 import ui
-from random import choice, randint, random
+from random import choice, randint
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -29,7 +29,7 @@ def create_key():
 
 
 def create_passer_by():
-    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(0, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(1, BOARD_HEIGHT - 1)}
+    passer_by = {"icon": "\033[93m"+"¤"+"\033[00m", "wallet": randint(6, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(BOARD_HEIGHT//2, BOARD_HEIGHT//2)}
     return passer_by
 
 
@@ -69,14 +69,14 @@ def menu():
   .   *   ..  . *  *
 *  * @()Ooc()*   o  .
     (Q@*0CG*O()  ___
-   |\_________/|/ _ \
+   |\_________/|/ _  \
    |  |  |  |  | / | |
    |  |  |  |  | | | |
    |  |  |  |  | | | |
    |  |  |  |  | | | |
    |  |  |  |  | | | |
    |  |  |  |  | \_| |
-   |  |  |  |  |\___/
+   |  |  |  |  |\___ /
    |\_|__|__|_/|
     \_________/
 

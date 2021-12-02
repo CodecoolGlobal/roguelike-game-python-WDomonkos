@@ -12,7 +12,7 @@ BAR_RIGHT_GATE = '\033[94m'+">"+'\033[00m'
 STREET_RIGHT_GATE = '\033[93m'+">"+'\033[00m'
 NEAR_BARKEEPER = "."
 DOORKEY = "\033[92m"+"~"+"\033[00m"
-NPC_COLLISION = [WALL, RIGHT_GATE, LEFT_GATE, DOORKEY]
+NPC_COLLISION = [WALL, RIGHT_GATE, LEFT_GATE, DOORKEY, STREET_RIGHT_GATE, BAR_RIGHT_GATE]
 
 
 def create_board(width, height, border_width=1):
@@ -160,7 +160,7 @@ def player_movement(board, player, key):
     elif player_position == RIGHT_GATE and player["doorkey"] == 0:
         return player_original
 
-    if player_position == STREET_RIGHT_GATE and player["wallet"] == 0:
+    if player_position == STREET_RIGHT_GATE and player["wallet"] >= 5:
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
