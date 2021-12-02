@@ -180,11 +180,17 @@ def player_movement(board, player, key):
         player["current_room"] += 1
         player["position_y"] = len(board)//2
         player["position_x"] = 1
-        player["weapon"] = 1
-        print("Oi, you have found a broken bottle, can be handy")
+        
     elif player_position == BAR_RIGHT_GATE and player["broken_glass"] == 0:
         return player_original
+    
+    if player["broken_glass"] == 8:
+        if player["weapon"] == 0:
+            print("Oi, you have found a broken bottle, can be handy")
+            time.sleep(3)
+        player["weapon"] = 1
         
+
     if player_position == LEFT_GATE:
         player["current_room"] -= 1
         player["position_y"] = len(board)//2
