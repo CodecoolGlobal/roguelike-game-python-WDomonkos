@@ -137,8 +137,9 @@ def put_player_on_board(board, char_list, player):
         for item in char_list:
             if player["random_id"] == item["random_id"]:
                 for row in board:                   # UNDER CONSTRUCTION
-                    if player["icon"] in row:
-                        row[row.index(char_list[char_list.index(player)]["icon"])] = " "
+                    if char_list[char_list.index(player)]["icon"] in row:
+                        if char_list[char_list.index(player)]["random_id"] == player["random_id"]:
+                            row[row.index(char_list[char_list.index(player)]["icon"])] = " "
 
                 if board[player["position_y"]][player["position_x"]] != WALL:
                     board[player["position_y"]][player["position_x"]] = char_list[char_list.index(player)]["icon"]
