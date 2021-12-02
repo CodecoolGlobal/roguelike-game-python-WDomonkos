@@ -37,6 +37,8 @@ def board1(orig_board):
         new_board[i][10] = WALL
     for i in range(13):
         new_board[-i][16] = WALL
+    for i in [x for x in range(30) if x not in [6,7,13,14,22,23]]:
+        new_board[8][i] = WALL
 
     new_board[2][-(len(orig_board[0])//2+2)] = "\033[92m"+"H"+"\033[00m"
     new_board[2][-(len(orig_board[0])//2+1)] = "\033[92m"+"O"+"\033[00m"
@@ -75,6 +77,9 @@ def board2(orig_board):
 def board3(orig_board):
     new_board = copy.deepcopy(orig_board)
 
+    new_board[len(new_board)//2][-1] = RIGHT_GATE
+    new_board[len(new_board)//2-1][-1] = RIGHT_GATE
+
     new_board[len(new_board)//2][0] = LEFT_GATE
     new_board[len(new_board)//2-1][0] = LEFT_GATE
 
@@ -84,6 +89,23 @@ def board3(orig_board):
     new_board[2][-5] = "\033[92m"+"B"+"\033[00m"
     new_board[2][-4] = "\033[92m"+"A"+"\033[00m"
     new_board[2][-3] = "\033[92m"+"R"+"\033[00m"
+
+    return new_board
+
+
+def board4(orig_board):
+    new_board = copy.deepcopy(orig_board)
+
+    new_board[len(new_board)//2][0] = LEFT_GATE
+    new_board[len(new_board)//2-1][0] = LEFT_GATE
+
+    new_board[2][-(len(orig_board[0])//2+3)] = "\033[92m"+"S"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2+2)] = "\033[92m"+"T"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2+1)] = "\033[92m"+"O"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2-0)] = "\033[92m"+"R"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2-1)] = "\033[92m"+"A"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2-2)] = "\033[92m"+"G"+"\033[00m"
+    new_board[2][-(len(orig_board[0])//2-3)] = "\033[92m"+"E"+"\033[00m"
 
     return new_board
 
