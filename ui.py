@@ -18,7 +18,7 @@ def display_message(string):
 
 def display_room_number_and_player_life(player : dict):
     roomnumber = player["current_room"]
-    life = player["lives"] * "♥"
+    life = player["lives"] * "♥ "
     print(f"Room {roomnumber}                                     lives: {life}")
 
 

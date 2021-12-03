@@ -55,7 +55,7 @@ def create_cop2():
 
 
 def create_cop3():
-    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 3), "position_y": randint(1, BOARD_HEIGHT - 3), "random_id": randint(10000, 99999)}
+    cop = {"icon": "\033[96m"+"%"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 3), "position_y": randint(1, BOARD_HEIGHT - 3), "random_id": randint(10000, 99990)}
     return cop
 
 
