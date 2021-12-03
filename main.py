@@ -34,6 +34,11 @@ def create_passer_by():
     return passer_by
 
 
+def create_passer_by2():
+    passer_by = {"icon": "\033[92m"+"¤"+"\033[00m", "wallet": randint(6, 6), "position_x": randint(1, BOARD_WIDTH - 1), "position_y": randint(BOARD_HEIGHT//2, BOARD_HEIGHT//2), "random_id": randint(10000, 99999)}
+    return passer_by
+
+
 def create_barkeeper():
     barkeeper = {"icon": "\033[95m"+"$"+"\033[00m", "drinks": 1, "wallet": 2, "position_x": -6, "position_y": 8, "random_id": randint(10000, 99999)}
     return barkeeper
@@ -45,7 +50,7 @@ def create_cop1():
 
 
 def create_cop2():
-    cop = {"icon": "\033[94m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2), "random_id": randint(10000, 99999)}
+    cop = {"icon": "\033[96m"+"♣"+"\033[00m", "weapon": choice([1]), "position_x": randint(1, BOARD_WIDTH - 2), "position_y": randint(1, BOARD_HEIGHT - 2), "random_id": randint(10000, 99999)}
     return cop
 
 
@@ -115,6 +120,7 @@ def main():
     board4 = engine.board4(board)
     player = create_player(difficulty)
     passer_by = create_passer_by()
+    passer_by2 = create_passer_by2()
     cop1 = create_cop1()
     cop2 = create_cop2()
     cop3 = create_cop3()
@@ -131,7 +137,7 @@ def main():
     util.clear_screen()
     is_running = True
     while is_running:
-        character_list = [player, passer_by, cop1, cop2, cop3, wife, barkeeper, boss]
+        character_list = [player, passer_by, passer_by2, cop1, cop2, cop3, wife, barkeeper, boss]
         if player["current_room"] == 1:
             current_room = board1
             engine.put_player_on_board(board1, character_list, wife)
@@ -142,6 +148,7 @@ def main():
             engine.put_player_on_board(current_room, character_list, cop2)
             engine.put_player_on_board(current_room, character_list, cop3)
             engine.put_player_on_board(current_room, character_list, passer_by)
+            engine.put_player_on_board(current_room, character_list, passer_by2)
         elif player["current_room"] == 3:
             current_room = board3
             engine.put_player_on_board(board3, character_list, barkeeper)
@@ -166,6 +173,7 @@ def main():
             cop2 = engine.npc_movement(board2, cop2, player, key=choice(["s", "w"]))
             cop3 = engine.npc_movement(board2, cop3, player, key=choice(["a", "s", "d", "w"]))
             passer_by = engine.npc_movement(board2, passer_by, player, key=choice(["a", "s", "d", "w"]))
+            passer_by2 = engine.npc_movement(board2, passer_by2, player, key=choice(["a", "s", "d", "w"]))
             boss = engine.npc_movement(board4, boss, player, key=choice(["a", "s", "d", "w"]))
             wife = engine.npc_movement(board1, wife, player, key=choice(["a", "s", "d", "w"]))
             
