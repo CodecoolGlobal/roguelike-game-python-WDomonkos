@@ -12,7 +12,7 @@ LEFT_GATE = '\033[96m'+"<"+'\033[00m'
 BAR_RIGHT_GATE = '\033[94m'+">"+'\033[00m'
 STREET_RIGHT_GATE = '\033[93m'+">"+'\033[00m'
 NEAR_BARKEEPER = "."
-DOORKEY = "\033[92m"+"~"+"\033[00m"
+DOORKEY = "\033[93m"+"~"+"\033[00m"
 NPC_COLLISION = [WALL, RIGHT_GATE, LEFT_GATE, DOORKEY, STREET_RIGHT_GATE, BAR_RIGHT_GATE]
 
 
@@ -163,7 +163,7 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = 1
     elif player_position == RIGHT_GATE and player["doorkey"] == 0:
-        print("Oops, it looks like the door is closed")
+        print("\033[93m"+"Oops, it looks like the door is closed"+"\033[00m")
         time.sleep(3)
         return player_original
 
@@ -172,9 +172,14 @@ def player_movement(board, player, key):
         player["position_y"] = len(board)//2
         player["position_x"] = 1
     elif player_position == STREET_RIGHT_GATE and player["wallet"] < 5:
-        print("HEY, how do you want to buy a drink without money?")
+        print("\033[93m"+"HEY, how do you want to buy a drink without money?"+"\033[00m")
         time.sleep(3)
         return player_original
+
+    if player["current_room"] == 3 and player["position_y"] == len(board)//2 and player["position_x"] == 2 and player["broken_glass"] <= 4:
+        print("\033[95m"+"Barkeeper sais: Oi, welcome to my Bar! Help me please clean the room!"+"\033[00m")
+        time.sleep(3)
+
 
     if player_position == BAR_RIGHT_GATE and player["broken_glass"] == 8:
         player["current_room"] += 1
@@ -186,7 +191,7 @@ def player_movement(board, player, key):
     
     if player["broken_glass"] == 8:
         if player["weapon"] == 0:
-            print("Oi, you have found a broken bottle, can be handy")
+            print("\033[93m"+"Oi, you have found a broken bottle, can be handy"+"\033[00m")
             time.sleep(3)
         player["weapon"] = 1
         
@@ -199,7 +204,10 @@ def player_movement(board, player, key):
     if player_position == NEAR_BARKEEPER:
         player["broken_glass"] += 1
     player = pick_up_item(player_position, player)
-    
+
+    if player_position == "\033[95m"+"$"+"\033[00m" or player_position == "\x1b[95m"+"$"+"\x1b[00m":  #the barkeeper
+        print("\033[95m"+"Jozsi took the HOLY PALINKA to the storage. If you want to get drunk take it from him."+"\033[00m")
+        time.sleep(3)
     return player
 
 
@@ -219,6 +227,9 @@ def npc_movement(board, npc, player, key):
 def pick_up_item(player_position, player):
     if player_position == DOORKEY:
         player["doorkey"] = 1
+        print("\033[93m"+"You found a KEY!"+"\033[00m")
+        time.sleep(3)
+
     return player
 
 
@@ -244,7 +255,7 @@ def if_is_collison(npc_list, player):
                 player["lives"] -= 1
             elif char["icon"] == "\033[91m"+"♥"+"\033[00m" and player["current_room"] == 1:
                 message = "\033[91m"+"Are you going to the pub again, you pig?!?"+"\033[00m"
-            elif char["icon"] == "\033[95m"+"$"+"\033[00m" and player["current_room"] == 3:
+            elif char["icon"] == ("\033[95m"+"$"+"\033[00m" or char["icon"] == "\x1b[95m"+"$"+"\x1b[00m") and player["current_room"] == 3:
                 message = "\033[95m"+"Jozsi took the HOLY PALINKA to the storage. If you want to get drunk take it from him."+"\033[00m"
     return message
 
